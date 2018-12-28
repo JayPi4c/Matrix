@@ -241,10 +241,9 @@ public class Matrix implements Serializable {
 	 * @since 1.0.0
 	 */
 	public Matrix dot(Matrix m) {
-		if (this.cols != m.rows) {
-			System.out.println("A's cols and B's rows must match!");
-			return null;
-		}
+		if (this.cols != m.rows)
+			throw new IllegalArgumentException("A's cols and B's rows must match!");
+
 		Matrix newMatrix = new Matrix(this.rows, m.cols);
 		for (int row = 0; row < newMatrix.rows; row++) {
 			for (int col = 0; col < newMatrix.cols; col++) {
@@ -270,10 +269,9 @@ public class Matrix implements Serializable {
 	 * @since 1.0.0
 	 */
 	public static Matrix dot(Matrix a, Matrix b) {
-		if (a.cols != b.rows) {
-			System.out.println("A's cols and B's rows must match!");
-			return null;
-		}
+		if (a.cols != b.rows)
+			throw new IllegalArgumentException("A's cols and B's rows must match!");
+
 		Matrix newMatrix = new Matrix(a.rows, b.cols);
 		for (int row = 0; row < newMatrix.rows; row++) {
 			for (int col = 0; col < newMatrix.cols; col++) {
@@ -294,10 +292,9 @@ public class Matrix implements Serializable {
 	 * @since 1.0.0
 	 */
 	public Matrix sub(Matrix m) {
-		if (m.cols != this.cols || m.rows != this.rows) {
-			System.out.println("rows and columns must match!");
-			return null;
-		}
+		if (m.cols != this.cols || m.rows != this.rows)
+			throw new IllegalArgumentException("rows and columns must match!");
+
 		for (int row = 0; row < this.rows; row++)
 			for (int col = 0; col < this.cols; col++)
 				this.data[row][col] -= m.data[row][col];
