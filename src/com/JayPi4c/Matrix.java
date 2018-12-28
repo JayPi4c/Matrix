@@ -8,7 +8,7 @@ import java.util.concurrent.ThreadLocalRandom;
 /**
  * 
  * @author JayPi4c
- * @version 1.0.0
+ * @version 1.0.1
  */
 public class Matrix implements Serializable {
 
@@ -427,15 +427,92 @@ public class Matrix implements Serializable {
 	 * @since 1.0.0
 	 */
 	public static Matrix mult(Matrix a, Matrix b) {
-		if (a.cols != b.cols || a.rows != b.rows) {
-			System.out.println("rows and columns must match!");
-			return null;
-		}
+		if (a.cols != b.cols || a.rows != b.rows)
+			throw new IllegalArgumentException("rows and columns must match!");
 		Matrix newMatrix = new Matrix(a.rows, b.cols);
 		for (int row = 0; row < newMatrix.rows; row++)
 			for (int col = 0; col < newMatrix.cols; col++)
 				newMatrix.data[row][col] = a.data[row][col] * b.data[row][col];
 		return newMatrix;
+	}
+
+	/**
+	 * 
+	 * @param col
+	 * @param data
+	 * @return
+	 * @since 1.0.1
+	 */
+	public Matrix setColumn(int col, double data[]) {
+		if (this.cols <= col || col < 0)
+			throw new IllegalArgumentException("This column does not exist!");
+		if (this.data.length != data.length)
+			throw new IllegalArgumentException("The data does not fit in the column!");
+		for (int i = 0; i < this.data.length; i++)
+			this.data[i][col] = data[i];
+		return this;
+	}
+
+	/**
+	 * 
+	 * @param row
+	 * @param data
+	 * @return
+	 * @since 1.0.1
+	 */
+	public Matrix setRow(int row, double data[]) {
+		if (this.rows <= row || row < 0)
+			throw new IllegalArgumentException("This row does not exist!");
+		if (this.data[row].length != data.length)
+			throw new IllegalArgumentException("The data does not fit in the row!");
+		this.data[row] = data;
+		return this;
+	}
+
+	/**
+	 * 
+	 * @return
+	 * @since 1.0.1
+	 */
+	public double det() {
+		if (data.length != data[0].length)
+			throw new IllegalArgumentException("The Matrix is not quadratic!");
+		int n = data.length;
+
+		if (n == 1)
+			return data[0][0];
+
+		if (n == 2)
+			return (data[0][0] * data[1][1]) - (data[0][1] * data[1][0]);
+
+		double det = 0;
+		double[][] tmp;
+		for (int i = 0; i < n; i++) {
+			tmp = new double[n - 1][n - 1];
+			for (int j = 1; j < n; j++)
+				for (int k = 0; k < n; k++)
+					if (k < i)
+						tmp[j - 1][k] = data[j][k];
+					else if (k > i)
+						tmp[j - 1][k - 1] = data[j][k];
+			Matrix m = new Matrix(tmp);
+			det += (data[0][i] * Math.pow(-1, i) * m.det());
+		}
+		return det;
+	}
+
+	/**
+	 * Setzt den Wert in der angegeben Zeile und Spalte auf den gegebenen Wert.
+	 * 
+	 * @param row
+	 * @param col
+	 * @param val
+	 * @return
+	 * @since 1.0.1
+	 */
+	public Matrix set(int row, int col, double val) {
+		data[row][col] = val;
+		return this;
 	}
 
 }
