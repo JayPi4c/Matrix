@@ -60,4 +60,24 @@ public class Vector {
 		System.out.println(")^T");
 		System.out.println("-------------------------------------------------");
 	}
+
+	/**
+	 * @return
+	 * @since 1.0.0
+	 */
+	public double[] getData() {
+		return this.data;
+	}
+
+	/**
+	 * 
+	 * @param index
+	 * @since 1.0.0
+	 * @return
+	 */
+	public double get(int index) {
+		if (index >= data.length || index < 0)
+			throw new IllegalArgumentException("Der index ist nicht in der data vorhanden!");
+		return this.data[index];
+	}
 }
