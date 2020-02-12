@@ -1,8 +1,6 @@
 package com.JayPi4c;
 
 import java.io.Serializable;
-import java.lang.reflect.InvocationTargetException;
-import java.lang.reflect.Method;
 import java.util.concurrent.ThreadLocalRandom;
 
 /**
@@ -104,24 +102,14 @@ public class Matrix implements Serializable {
 	}
 
 	/**
-	 * Verwendung:<br>
-	 * Matrix m = new Matrix(3, 3);<br>
-	 * m.fill(new Matrix(), Matrix.class.getMethod("random"));
-	 * 
-	 * @param obj
-	 * @param m   Muss eine Funktion sein, die einen double zur&uumlck gibt und
-	 *            keine Parameter annimmt
-	 * @return
-	 * @throws IllegalAccessException
-	 * @throws IllegalArgumentException
-	 * @throws InvocationTargetException
+	 * @param helper
 	 * @since 1.0.0
+	 * @return
 	 */
-	public Matrix fill(Object obj, Method m)
-			throws IllegalAccessException, IllegalArgumentException, InvocationTargetException {
+	public Matrix fill(IMathHelper<Double> helper) {
 		for (int row = 0; row < this.rows; row++) {
 			for (int col = 0; col < this.cols; col++) {
-				this.data[row][col] = (double) m.invoke(obj);
+				this.data[row][col] = helper.getValue(this.data[row][col]);
 			}
 		}
 		return this;
@@ -129,23 +117,14 @@ public class Matrix implements Serializable {
 
 	/**
 	 * 
-	 * Verwendung:<br>
-	 * Matrix m = new Matrix(3, 3);<br>
-	 * m.map(new Matrix(), Matrix.class.getMethod("sigmoid", double.class));
-	 * 
-	 * @param obj
-	 * @param m
-	 * @return
-	 * @throws IllegalAccessException
-	 * @throws IllegalArgumentException
-	 * @throws InvocationTargetException
+	 * @param helper
 	 * @since 1.0.0
+	 * @return
 	 */
-	public Matrix map(Object obj, Method m)
-			throws IllegalAccessException, IllegalArgumentException, InvocationTargetException {
+	public Matrix map(IMathHelper<Double> helper) {
 		for (int row = 0; row < this.rows; row++) {
 			for (int col = 0; col < this.cols; col++) {
-				this.data[row][col] = (double) m.invoke(obj, this.data[row][col]);
+				this.data[row][col] = helper.getValue(this.data[row][col]);
 			}
 		}
 		return this;
