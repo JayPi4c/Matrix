@@ -1,5 +1,6 @@
 package com.JayPi4c;
 
+import static org.junit.jupiter.api.Assertions.assertArrayEquals;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertThrows;
@@ -139,6 +140,18 @@ class MatrixTest {
 		result = Matrix.sub(a, b);
 		assertTrue(Matrix.equals(result, new Matrix(new double[][] { { 1, 0 }, { -1, -2 } })));
 
+	}
+
+	@Test
+	public void testArray() {
+		double vals[][] = { { 3, 4, 5 }, { 1, 2, 3 }, { 4, 5, 6 } };
+		Matrix m = new Matrix(vals);
+		double data[][] = m.toArray();
+		Matrix m1 = new Matrix(data);
+		assertTrue(Matrix.equals(m, m1));
+		for (int i = 0; i < vals.length; i++) {
+			assertArrayEquals(vals[i], data[i]);
+		}
 	}
 
 }
