@@ -91,7 +91,7 @@ class MatrixTest {
 	@Test
 	void testMap() {
 		Matrix m = new Matrix(2, 2);
-		m.map(d -> d + 2.0);
+		m.map((d, r, c) -> d + 2.0);
 		assertTrue(m.equals(new Matrix(new double[][] { { 2, 2 }, { 2, 2 } })));
 	}
 

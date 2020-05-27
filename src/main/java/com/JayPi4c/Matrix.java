@@ -100,20 +100,25 @@ public class Matrix implements Serializable {
 	}
 
 	/**
-	 * @param helper
-	 * @since 1.0.0
-	 * @return
-	 */
-	public Matrix fill(IMathHelper<Double> helper) {
-		for (int row = 0; row < this.rows; row++) {
-			for (int col = 0; col < this.cols; col++) {
-				this.data[row][col] = helper.getValue(this.data[row][col]);
-			}
-		}
-		return this;
-	}
-
-	/**
+	 * Example for adding two to every member of a randomized matrix
+	 * 
+	 * <pre>
+	 * <code>
+	 *  Matrix m = new Matrix(2, 2).randomize();
+	 *  m.map((d, r, c) -> d + 2.0);
+	 * </code>
+	 * </pre>
+	 * 
+	 * Example for setting the members of the Matrix to the sum of the columns and
+	 * rows index (rows and columns are zero-based so we need to add two to the
+	 * sum):
+	 * 
+	 * <pre>
+	 * <code>
+	 *  Matrix m = new Matrix(3, 3);
+	 *  m.map((d, r, c) -> r + c + 2);
+	 * </code>
+	 * </pre>
 	 * 
 	 * @param helper
 	 * @since 1.0.0
@@ -122,7 +127,7 @@ public class Matrix implements Serializable {
 	public Matrix map(IMathHelper<Double> helper) {
 		for (int row = 0; row < this.rows; row++) {
 			for (int col = 0; col < this.cols; col++) {
-				this.data[row][col] = helper.getValue(this.data[row][col]);
+				this.data[row][col] = helper.getValue(this.data[row][col], row, col);
 			}
 		}
 		return this;
