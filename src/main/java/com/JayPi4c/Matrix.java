@@ -660,4 +660,49 @@ public class Matrix implements Serializable {
 		return true;
 	}
 
+	/**
+	 * comes from https://stackoverflow.com/a/49251497
+	 * 
+	 * @param matrix
+	 * @return
+	 */
+	public static double[][] inverse(double[][] matrix) {
+		double[][] inverse = new double[matrix.length][matrix.length];
+
+		// minors and cofactors
+		for (int i = 0; i < matrix.length; i++)
+			for (int j = 0; j < matrix[i].length; j++)
+				inverse[i][j] = Math.pow(-1, i + j) * new Matrix(minor(matrix, i, j)).det();
+
+		// adjugate and determinant
+		double det = 1.0 / new Matrix(matrix).det();
+		for (int i = 0; i < inverse.length; i++) {
+			for (int j = 0; j <= i; j++) {
+				double temp = inverse[i][j];
+				inverse[i][j] = inverse[j][i] * det;
+				inverse[j][i] = temp * det;
+			}
+		}
+
+		return inverse;
+	}
+
+	/**
+	 * comes from https://stackoverflow.com/a/49251497
+	 * 
+	 * @param matrix
+	 * @param row
+	 * @param column
+	 * @return
+	 */
+	private static double[][] minor(double[][] matrix, int row, int column) {
+		double[][] minor = new double[matrix.length - 1][matrix.length - 1];
+
+		for (int i = 0; i < matrix.length; i++)
+			for (int j = 0; i != row && j < matrix[i].length; j++)
+				if (j != column)
+					minor[i < row ? i : i - 1][j < column ? j : j - 1] = matrix[i][j];
+		return minor;
+	}
+
 }
