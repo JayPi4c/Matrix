@@ -166,6 +166,15 @@ public class Matrix implements Serializable {
 	}
 
 	/**
+	 * Prints the Matrix into the standard System.out PrintStream.
+	 * 
+	 * @since 1.1.1
+	 */
+	public void print() {
+		print(System.out);
+	}
+
+	/**
 	 * Prints the Matrix into the dedicated PrintStream.
 	 * 
 	 * @since 1.0.0
